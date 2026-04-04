@@ -1,4 +1,4 @@
-![Logo Brain Robot](pictures\logo.png)
+![Logo Brain Robot](pictures/logo.png)
 
 
 # BRAIN ROBOT
