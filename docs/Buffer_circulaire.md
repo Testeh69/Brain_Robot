@@ -16,8 +16,7 @@ Read (Lecture) : Là où tu récupères les données.
 Le buffer est vide quand Read == Write.
 Le buffer est plein quand Write rattrape Read (par l'arrière).
 
-
-## Méthodes:
+## Méthodes
 
 **Définir une taille**:
 
