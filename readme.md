@@ -1,6 +1,6 @@
-![Logo Brain Robot](pictures/logo.png)
-
 # BRAIN ROBOT
+
+![Logo Brain Robot](pictures/logo.png)
 
 ![Status: En développement](https://img.shields.io/badge/Status-En%20D%C3%A9veloppement-orange)
 
@@ -14,12 +14,12 @@ Le flux de données suit ce parcours entre l'utilisateur et la partie mécanique
 
 Contrôle (Downlink) : > 📱 MOBILE ─── Bluetooth ───> 🔵 [BLE] ─── UART ───> 🤖 Arduino ─── PWM ───> ⚙️ Moteurs
 
-Retour d'état (Uplink) : > ⚙️ MOTEUR ─── Feedback ───> 🤖 Arduino ─── UART ───> 🔵 [BLE] ─── Data ───> 📱 Mobile
+Retour d'état (Uplink) : > ⚙️ SENSORS ─── Feedback ───> 🤖 Arduino ─── UART ───> 🔵 [BLE] ─── Data ───> 📱 Mobile
 
 ## Algorithme
 
 - PID pour controle moteur.
-- Algorithme de Navigation Inertielle
+- Algorithme de Navigation Inertiel
 - Buffer circulaire pour UART
 
 ## 📂 Structure du Projet
@@ -45,12 +45,3 @@ Brain-Robot/
 ## SOURCES
 
 La plupart des sources sont dans le dossier doc.
-
-
-
-
-
-
-
-
-
