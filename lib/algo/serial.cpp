@@ -6,7 +6,7 @@
 // Map ID des capteurs
 /*
 1: Ultrasonic sensor
-2:
+2: Centrale inertielle
  -- 2.1: Gyroscope
     -- 2.1.1: Gyro X
     -- 2.1.2: Gyro Y
@@ -16,7 +16,11 @@
     -- 2.2.2: Accel Y
     -- 2.2.3: Accel Z
 3: Moteur droit
+  -- 3.1: Rotation
+  -- 3.2: Vitesse
 4: Moteur gauche
+  -- 4.1: Rotation
+  -- 4.2: Vitesse
 */
 
 template <typename T>
@@ -40,8 +44,11 @@ struct Paquet {
 
 template <typename T>
 void sendData(RingBuffer<T>& buffer) {
-    if (!buffer.isEmpty()) {
+    while (!buffer.isEmpty()) {
         T data = buffer.pop();
+        if (data.id == 0) {
+            break;
+        }
         Serial.print(data.id);
         Serial.print(": ");
         Serial.print(data.value);

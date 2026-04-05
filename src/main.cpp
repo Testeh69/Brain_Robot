@@ -43,8 +43,8 @@ UltrasonicSensor sensor(trigPin, echoPin);
 InertielSensor inertiel;
 
 
-RingBuffer<Paquet<float>> buffer_send(16);
-RingBuffer<Paquet<float>> buffer_receive(16);
+RingBuffer<Paquet<float>> buffer_send(32);
+RingBuffer<Paquet<float>> buffer_receive(32);
 
 
 
@@ -55,7 +55,7 @@ void setup() {
   pinMode(servoPin, OUTPUT);
   
   // Augmenter la vitesse pour le flux de données
-  Serial.begin(115200); 
+  Serial.begin(9600); 
   
   // Initialisation I2C pour le MPU6050
   Wire.begin(); 
@@ -80,7 +80,7 @@ void fillBufferWithSensorData(RingBuffer<Paquet<float>>& buffer) {
   buffer.push(Paquet<float>(222, accel.y));
   buffer.push(Paquet<float>(223, accel.z));
   
-  buffer.push(Paquet<float>(300, dist));
+  buffer.push(Paquet<float>(3, dist));
 }
 
 unsigned long lastMillis = 0;
