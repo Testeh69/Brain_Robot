@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include "motordriver.hpp"
 #include "ultrasonic/ultrasonic.hpp"
 #include <Servo.h>
-
+#include "serial.cpp"
+#include "structure/buffer_circulaire.hpp"
 
 
 // === PINS SERVO ===
@@ -39,9 +39,9 @@
 
 
 UltrasonicSensor sensor(trigPin, echoPin);
-MotorDriver robot (AIN1, BIN1, PWMA, PWMB, STBY);
 
-
+RingBuffer<DataSend> buffer_send(10);
+RingBuffer<DataSend> buffer_receive(10);
 
 
 
@@ -54,5 +54,9 @@ void setup() {
 }
 
 void loop() {
-  
+  float distance = (float)sensor.getDistance();
+  struct DataSend data = {1, distance};
+  buffer_receive.push(data);
+  sendData(buffer_receive);
+
 }

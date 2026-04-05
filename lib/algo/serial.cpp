@@ -3,27 +3,38 @@
 
 
 
-#ifndef RX
-#define RX 0
-#endif
+// Map ID des capteurs
+/*
 
-#ifndef TX
-#define TX 1
-#endif
+1: Ultrasonic sensor
+2: Centrale inertielle
+3: Moteur droit
+4: Moteur gauche
+*/
+
+struct DataSend {
+    int id;
+    float value;
+};
+
+
 
 template <typename T>
 void sendData(RingBuffer<T>& buffer) {
     if (!buffer.isEmpty()) {
         T data = buffer.pop();
-        Serial.println(data);
+        Serial.println(data.id);
+        Serial.println(data.value);
     }
 }
 
 
 template <typename T>
 void receiveData(RingBuffer<T>& buffer) {
-    T data = digitalRead(RX); 
-    buffer.push(data);
+    while (Serial.available() > 0) {
+        T data = (T)Serial.read();
+        buffer.push(data);
+    }
 }
 
 

@@ -3,14 +3,36 @@
 template <typename T>
 class RingBuffer {
     public:
-       RingBuffer(size_t s); 
+       RingBuffer(size_t s) {
+              size = s;
+              buffer = new T[size];
+       }; 
 
-       void push(T value);
-       T pop();
+       void push(T value){
+         if (!full){
+                buffer[write] = value;
+                write = (write + 1) % size;
+                updateFull();
+            }
+       };
+       T pop(){
+         if (write == read && !full) {
+        // Buffer vide
+            return T(); // ou une autre valeur pour indiquer que le buffer est vide
+            }
+        T value = buffer[read];
+        read = (read + 1) % size;
+        full = false;
+        return value;    
+       };
 
-       bool isEmpty();
+       bool isEmpty(){
+              return (write == read && !full);
+       };
 
-       ~RingBuffer();
+       ~RingBuffer(){
+                delete[] buffer;
+       };
 
 
        private:
@@ -21,7 +43,11 @@ class RingBuffer {
         bool full = false;
         
         
-        void updateFull();
+        void updateFull(){
+            if (write == read && !full) {
+                full = true;
+            }
+        };
 
 
 };

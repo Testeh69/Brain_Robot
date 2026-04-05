@@ -14,6 +14,7 @@ Suivi de l'avancement des fonctionnalités et du développement matériel.
 
 [ ] Communication : Faire la pile circulaire pour l'uart.
 [ ] Communication : Algo pour envoyer et recevoir les données via les RX/TX
+[ ] Communication/TEST : Envoyer data ultrason par ble
 
 ## 🟢 Fait (Terminé)
 
