@@ -26,7 +26,7 @@ class MotorDriver {
     const float Kp = 1.5; // gain proportionnel pour la correction
     const float Ki = 0.7; // gain intégral pour la correction
     const float Kd = 0.1; // gain dérivé pour la correction
-    const float compensationMecanique = 3; // variabl
+    const float compensationMecanique = 3; // variable
     float integral = 0;
     float previous_error = 0;
     float dt = 0.1;
