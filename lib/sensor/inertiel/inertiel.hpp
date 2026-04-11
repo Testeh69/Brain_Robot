@@ -29,13 +29,32 @@ struct GyroData {
     float z;
 };
 
+
+struct OrientationData {
+    float roll;
+    float pitch;
+    float yaw;
+};
+
+
 struct AccelData{
     int16_t x;
     int16_t y;
     int16_t z;
 };
 
+struct SpeedData{
+    int16_t x;
+    int16_t y;
+    int16_t z;
+};
 
+
+struct PositionData{
+    int16_t x;
+    int16_t y;
+    int16_t z;
+};
 
 class InertielSensor{
 
@@ -43,7 +62,16 @@ class InertielSensor{
     // Paramètres de configuration du MPU6050
 
     GyroData gyroData;
+    OrientationData rotationData;
+    
+
     AccelData accelData;
+    SpeedData speedData;
+    PositionData positionData;
+
+    unsigned long previousTimeGyro = millis();
+    unsigned long previousTimeAccel = millis();
+
     float temp;
     float gyroScale = 131.0f;
     float accelScale = 16384.0f; 
@@ -133,6 +161,14 @@ class InertielSensor{
         return gyroData;
     }
 
+    OrientationData getOrientation(float deltaTime){
+        rotationData.roll += gyroData.x * deltaTime;
+        rotationData.pitch += gyroData.y * deltaTime;
+        rotationData.yaw += gyroData.z * deltaTime;
+        return rotationData;
+
+    }
+
 
     AccelData getAccel(){
         // Lire les données de l'accéléromètre, les convertir en g et les retourner
@@ -141,6 +177,39 @@ class InertielSensor{
         accelData.z = (int16_t)readRegister(ACCEL_ADRESS + 4, MPU_6050, true) / accelScale;
 
         return accelData;
+    }
+
+
+    SpeedData getSpeed(float deltaTime){
+        speedData.x += accelData.x * deltaTime;
+        speedData.y += accelData.y * deltaTime;
+        speedData.z += accelData.z * deltaTime;
+
+        return speedData;
+    }
+
+    PositionData getPosition(float deltaTime){
+        // Calculer la position en intégrant les données de vitesse et les retourner
+
+        positionData.x += speedData.x * deltaTime;
+        positionData.y += speedData.y * deltaTime;
+        positionData.z += speedData.z * deltaTime;
+
+        return positionData;
+    };
+
+    void StrapDownInertialNavigation(){
+        unsigned long currentTime = millis();
+        float deltaTimeGyro = (currentTime - previousTimeGyro) / 1000.0; // Convertir en secondes
+        float deltaTimeAccel = (currentTime - previousTimeAccel) / 1000.0; // Convertir en secondes
+        previousTimeGyro = currentTime;
+        previousTimeAccel = currentTime;
+        getGyro();
+        getOrientation(deltaTimeGyro);
+        getAccel();
+        getSpeed(deltaTimeAccel);
+        getPosition(deltaTimeAccel);
+
     }
 
     float getTemp(){
